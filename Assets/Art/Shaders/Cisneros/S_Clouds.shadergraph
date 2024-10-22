@@ -2063,7 +2063,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -7.0,
+        "x": -2.380000114440918,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -4936,7 +4936,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "RadialScale",
     "m_StageCapability": 3,
-    "m_Value": 1.0,
+    "m_Value": 10.789999961853028,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }

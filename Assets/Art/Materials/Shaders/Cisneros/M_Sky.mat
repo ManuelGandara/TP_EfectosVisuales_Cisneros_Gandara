@@ -125,7 +125,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Rotation: 0
-    - _Scale: 360
+    - _Scale: 80
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -136,7 +136,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Bottom_Color: {r: 0.3018868, g: 0.018511934, b: 0.018511934, a: 0}
+    - _Bottom_Color: {r: 0.34509805, g: 0.012148458, b: 0.012148458, a: 0.69411767}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SkySpeed: {r: 0, g: 0, b: 0, a: 0}
