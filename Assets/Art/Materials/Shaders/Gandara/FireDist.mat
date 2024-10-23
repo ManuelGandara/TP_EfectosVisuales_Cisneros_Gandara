@@ -27,7 +27,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _DistDist: 1
+    - _DistDist: 0
     - _heat_Distorsion: 0.02
     m_Colors: []
   m_BuildTextureStacks: []
