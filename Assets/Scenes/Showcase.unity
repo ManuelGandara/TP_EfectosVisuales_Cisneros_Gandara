@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 66582358}
-  m_IndirectSpecularColor: {r: 0.013390615, g: 0.00012902138, b: 0.00012902138, a: 1}
+  m_IndirectSpecularColor: {r: 0.0133629525, g: 0.00012875655, b: 0.00012875655, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16313,15 +16313,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headTransform: {fileID: 1035596726}
-  _mouseSensitivity: 300
+  _interactKey: 101
+  _mouseSensitivity: 125
+  _fireInteraction: {fileID: 0}
+  _material: {fileID: 0}
   _intMask:
     serializedVersion: 2
     m_Bits: 8
   _movMask:
     serializedVersion: 2
     m_Bits: 0
+  _intRayDist: 2
   _movRayDist: 0.75
-  _movSpeed: 15
+  _movSpeed: 12
+  _sqrDistName: _DistDist
 --- !u!54 &1707596902
 Rigidbody:
   m_ObjectHideFlags: 0
