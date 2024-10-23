@@ -31,7 +31,6 @@ public class GrassInteraction : MonoBehaviour
         for (int i = 0; i < _mats.Length; i++)
         {
             _mats[i].SetFloat(_sqrDistName, _sqrDist);
-            Debug.Log(_sqrDist);
         }
     }
 }
