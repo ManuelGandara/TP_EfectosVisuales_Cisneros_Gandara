@@ -9,13 +9,23 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Transform _headTransform;
 
     [Header("Inputs")]
+    [SerializeField] private KeyCode _interactKey = KeyCode.E;
     [Range(50.0f, 1000.0f)][SerializeField] private float _mouseSensitivity = 300.0f;
+    private bool _isActive = false;
+    [SerializeField] GameObject _fireInteraction;
+    [SerializeField] Material _material;
 
     [Header("Physics")]
     [SerializeField] private LayerMask _intMask;
     [SerializeField] private LayerMask _movMask;
+    [SerializeField] private float _intRayDist = 2.0f;
     [SerializeField] private float _movRayDist = 0.75f;
     [SerializeField] private float _movSpeed = 5.0f;
+
+    [SerializeField] private string _sqrDistName = "_DistDist";
+    private Renderer[] _renderers;
+
+    private float _DistDist = 0.0f;
 
     private float _xAxis, _zAxis, _inputMouseX, _inputMouseY, _mouseX;
     private Vector3 _dir;
@@ -43,8 +53,6 @@ public class FirstPersonController : MonoBehaviour
             Debug.LogError($"No GameManager found on scene.");
         }
 
-        //GameManager.Instance.Player = this;
-
         _camera = Camera.main;
 
         _camControl = Camera.main.GetComponent<FirstPersonCamera>();
@@ -64,6 +72,20 @@ public class FirstPersonController : MonoBehaviour
         if (_inputMouseX != 0 || _inputMouseY != 0)
         {
             Rotation(_inputMouseX, _inputMouseY);
+        }
+
+        if (Input.GetKeyDown(_interactKey))
+        {
+            OnInteract();
+        }
+
+        if (_isActive == true)
+        {
+            _material.SetFloat(_sqrDistName, 0);
+        }
+        else
+        {
+            _material.SetFloat(_sqrDistName, 1);
         }
     }
 
@@ -101,5 +123,10 @@ public class FirstPersonController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, _mouseX, 0f);
 
         _camControl?.Rotation(_mouseX, y);
+    }
+    public void OnInteract()
+    {
+        _isActive = !_isActive;
+        _fireInteraction.SetActive(_isActive);
     }
 }
