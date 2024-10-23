@@ -9,12 +9,10 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Transform _headTransform;
 
     [Header("Inputs")]
-    [SerializeField] private KeyCode _interactKey = KeyCode.E;
     [Range(50.0f, 1000.0f)][SerializeField] private float _mouseSensitivity = 300.0f;
 
     [Header("Physics")]
     [SerializeField] private LayerMask _intMask;
-    [SerializeField] private float _intRayDist = 2.0f;
     [SerializeField] private LayerMask _movMask;
     [SerializeField] private float _movRayDist = 0.75f;
     [SerializeField] private float _movSpeed = 5.0f;
