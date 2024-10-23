@@ -43,7 +43,7 @@ public class FirstPersonController : MonoBehaviour
             Debug.LogError($"No GameManager found on scene.");
         }
 
-        GameManager.Instance.Player = this;
+        //GameManager.Instance.Player = this;
 
         _camera = Camera.main;
 

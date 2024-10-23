@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     #region Singleton
     public static GameManager Instance;
 
+    public GameObject player;
+
     private void Awake()
     {
         if (!Instance)
@@ -21,10 +23,10 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    private FirstPersonController _player;
+    /*private FirstPersonController _player;
     public FirstPersonController Player
     {
         get { return _player; }
         set { _player = value; }
-    }
+    }*/
 }

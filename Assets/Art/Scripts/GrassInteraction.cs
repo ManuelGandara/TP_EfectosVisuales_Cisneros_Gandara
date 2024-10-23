@@ -26,11 +26,12 @@ public class GrassInteraction : MonoBehaviour
 
     private void Update()
     {
-        _sqrDist = Vector3.SqrMagnitude(transform.position - GameManager.Instance.Player.transform.position);
+        _sqrDist = Vector3.SqrMagnitude(transform.position - GameManager.Instance.player.transform.position);
 
         for (int i = 0; i < _mats.Length; i++)
         {
             _mats[i].SetFloat(_sqrDistName, _sqrDist);
+            Debug.Log(_sqrDist);
         }
     }
 }
