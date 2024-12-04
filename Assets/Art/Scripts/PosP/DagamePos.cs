@@ -1,35 +1,39 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class DamagePos : MonoBehaviour
 {
     [Header("<color=green>Rendering</color>")]
-    [SerializeField] private Volume _volume; // Volume asociado
-    [SerializeField] private float _triggerDistance = 10f; // Distancia al jugador para activar el efecto
+    [SerializeField] private string _sqrDistName = "_DistDist";
 
-    private Transform _playerTransform;
+    private float _DistDist = 0.0f;
+
+    private Renderer[] _renderers;
+    [SerializeField] Material _damage;
+    [SerializeField] GameObject _body;
 
     private void Start()
     {
-        if (GameManager.Instance && GameManager.Instance.player)
-        {
-            _playerTransform = GameManager.Instance.player.transform;
-        }
-        else
-        {
-            Debug.LogWarning("No se encontró el jugador en el GameManager.");
-        }
+
     }
 
     private void Update()
     {
-        if (_playerTransform == null || _volume == null) return;
+        //_DistDist = Vector3.SqrMagnitude(_body.transform.position - GameManager.Instance.player.transform.position);
 
-        // Calcula la distancia al jugador
-        float distance = Vector3.Distance(transform.position, _playerTransform.position);
-
-        // Activa o desactiva el volumen según la distancia
-        _volume.weight = distance <= _triggerDistance ? 1.0f : 0.0f;
+       /* if (_DistDist <= 100 && GameManager.Instance.onFire == true)
+        {
+            _damage.SetFloat(_sqrDistName, 0);
+        }
+        else
+        {
+            _damage.SetFloat(_sqrDistName, 1);
+        }*/
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            FullScreenManager.Instance.M_Damage.SetFloat(FullScreenManager.Instance.DistanceName, 0);
+            _damage.SetFloat("_DistDist", 0);
+        }
     }
 }
-

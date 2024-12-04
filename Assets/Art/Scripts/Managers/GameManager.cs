@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private bool vfxActivated = false;
     public bool onElectricity = false;
+    public bool onFire = false;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
         if (!vfxActivated && Torch.GetComponent<Collider>().bounds.Intersects(Body.GetComponent<Collider>().bounds))
         {
             ActivateVFXFire();
+            onFire = true;
         }
 
         if (onElectricity == true)
