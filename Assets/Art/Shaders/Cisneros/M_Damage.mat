@@ -39,6 +39,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _DistDist: 0
+    - _DistDist2: 1
     - _VignetteDarkening: 2.7
     - _VignetteRadius: 0.35
     - _VignetteSofness: 1.6
