@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -10,6 +8,7 @@ public class FirstPersonController : MonoBehaviour
 
     [Header("Inputs")]
     [SerializeField] private KeyCode _interactKey = KeyCode.E;
+    [SerializeField] private KeyCode _dropKey = KeyCode.Q; // Nueva tecla para soltar
     [Range(50.0f, 1000.0f)][SerializeField] private float _mouseSensitivity = 300.0f;
     private bool _isActive = false;
     [SerializeField] GameObject _fireInteraction;
@@ -21,6 +20,9 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float _intRayDist = 2.0f;
     [SerializeField] private float _movRayDist = 0.75f;
     [SerializeField] private float _movSpeed = 5.0f;
+
+    [SerializeField] private Rigidbody _heldObject; // Referencia al objeto que puedes soltar
+    [SerializeField] private float _throwForce = 5.0f; // Fuerza inicial hacia adelante
 
     [SerializeField] private string _sqrDistName = "_DistDist";
     private Renderer[] _renderers;
@@ -43,7 +45,7 @@ public class FirstPersonController : MonoBehaviour
         Cursor.visible = false;
 
         _rb = GetComponent<Rigidbody>();
-        _rb.constraints = RigidbodyConstraints.FreezeRotation;        
+        _rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void Start()
@@ -57,13 +59,18 @@ public class FirstPersonController : MonoBehaviour
 
         _camControl = Camera.main.GetComponent<FirstPersonCamera>();
         _camControl.Head = _headTransform;
+
+        // Asegúrate de que el Rigidbody de la antorcha sea cinemático al inicio
+        if (_heldObject != null)
+        {
+            _heldObject.isKinematic = true;
+        }
     }
 
     private void Update()
     {
         _xAxis = Input.GetAxis($"Horizontal");
         _zAxis = Input.GetAxis($"Vertical");
-
         _dir = (transform.right * _xAxis + transform.forward * _zAxis).normalized;
 
         _inputMouseX = Input.GetAxisRaw($"Mouse X");
@@ -77,6 +84,11 @@ public class FirstPersonController : MonoBehaviour
         if (Input.GetKeyDown(_interactKey))
         {
             OnInteract();
+        }
+
+        if (Input.GetKeyDown(_dropKey))
+        {
+            DropObject(); // Soltar el objeto
         }
 
         if (_isActive == true)
@@ -107,7 +119,7 @@ public class FirstPersonController : MonoBehaviour
     private void Movement(Vector3 dir)
     {
         _rb.MovePosition(transform.position + dir * _movSpeed * Time.fixedDeltaTime);
-    }    
+    }
 
     private void Rotation(float x, float y)
     {
@@ -124,9 +136,29 @@ public class FirstPersonController : MonoBehaviour
 
         _camControl?.Rotation(_mouseX, y);
     }
+
     public void OnInteract()
     {
         _isActive = !_isActive;
         _fireInteraction.SetActive(_isActive);
     }
+
+    private void DropObject()
+    {
+        if (_heldObject == null) return;
+
+        // Elimina el objeto como hijo del jugador
+        _heldObject.transform.parent = null;
+
+        // Activa la física
+        _heldObject.isKinematic = false;
+
+        // Aplica una fuerza hacia adelante
+        Vector3 forwardForce = transform.forward * _throwForce;
+        _heldObject.AddForce(forwardForce, ForceMode.Impulse);
+
+        // Limpia la referencia
+        _heldObject = null;
+    }
 }
+

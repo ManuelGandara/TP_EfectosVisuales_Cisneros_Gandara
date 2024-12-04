@@ -31,6 +31,5 @@ public class DistortionInteraction : MonoBehaviour
             _fire.SetFloat (_sqrDistName, 1);
         }
 
-        Debug.Log("distancia fuego" + _DistDist);
     }
 }
