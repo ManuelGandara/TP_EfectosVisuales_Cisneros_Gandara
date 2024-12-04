@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class FirstPersonController : MonoBehaviour
@@ -7,8 +8,9 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Transform _headTransform;
 
     [Header("Inputs")]
-    [SerializeField] private KeyCode _interactKey = KeyCode.E;
-    [SerializeField] private KeyCode _dropKey = KeyCode.Q; // Nueva tecla para soltar
+    [SerializeField] private KeyCode _interactKey = KeyCode.E; // Tecla para la interacción general
+    [SerializeField] private KeyCode _dropKey = KeyCode.Q; // Tecla para soltar objetos
+    [SerializeField] private KeyCode _rotateBridgeKey = KeyCode.F; // Tecla para rotar el puente
     [Range(50.0f, 1000.0f)][SerializeField] private float _mouseSensitivity = 300.0f;
     private bool _isActive = false;
     [SerializeField] GameObject _fireInteraction;
@@ -21,8 +23,8 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float _movRayDist = 0.75f;
     [SerializeField] private float _movSpeed = 5.0f;
 
-    [SerializeField] private Rigidbody _heldObject; // Referencia al objeto que puedes soltar
-    [SerializeField] private float _throwForce = 5.0f; // Fuerza inicial hacia adelante
+    [SerializeField] private Rigidbody _heldObject;
+    [SerializeField] private float _throwForce = 5.0f;
 
     [SerializeField] private string _sqrDistName = "_DistDist";
     private Renderer[] _renderers;
@@ -38,6 +40,14 @@ public class FirstPersonController : MonoBehaviour
 
     private Ray _intRay, _movRay;
     private RaycastHit _intHit;
+
+    [Header("Bridge Rotation Settings")]
+    [SerializeField] private Transform bridge; // Asigna el cubo en forma de rectángulo
+    [SerializeField] private Transform emptyObject; // Asigna el empty object para la rotación
+    [SerializeField] private float rotationAngle = 45f; // Ángulo de rotación
+    [SerializeField] private float rotationDuration = 1f; // Duración de la rotación en segundos
+    private Quaternion targetRotation;
+    private bool isRotating = false;
 
     private void Awake()
     {
@@ -60,11 +70,13 @@ public class FirstPersonController : MonoBehaviour
         _camControl = Camera.main.GetComponent<FirstPersonCamera>();
         _camControl.Head = _headTransform;
 
-        // Asegúrate de que el Rigidbody de la antorcha sea cinemático al inicio
         if (_heldObject != null)
         {
             _heldObject.isKinematic = true;
         }
+
+        // Inicializa la rotación del puente
+        targetRotation = emptyObject.localRotation * Quaternion.Euler(rotationAngle, 0, 0);
     }
 
     private void Update()
@@ -88,7 +100,14 @@ public class FirstPersonController : MonoBehaviour
 
         if (Input.GetKeyDown(_dropKey))
         {
-            DropObject(); // Soltar el objeto
+            DropObject();
+        }
+
+        // Rotación del puente al presionar F
+        if (Input.GetKeyDown(_rotateBridgeKey) && !isRotating)
+        {
+            StartCoroutine(RotateBridgeCoroutine()); // Rota el puente cuando presionas la tecla F
+            GameManager.Instance.onElectricity = true;
         }
 
         if (_isActive == true)
@@ -147,18 +166,35 @@ public class FirstPersonController : MonoBehaviour
     {
         if (_heldObject == null) return;
 
-        // Elimina el objeto como hijo del jugador
         _heldObject.transform.parent = null;
 
-        // Activa la física
         _heldObject.isKinematic = false;
 
-        // Aplica una fuerza hacia adelante
         Vector3 forwardForce = transform.forward * _throwForce;
         _heldObject.AddForce(forwardForce, ForceMode.Impulse);
 
-        // Limpia la referencia
         _heldObject = null;
     }
+
+    // Corutina que rota el puente de forma suave
+    private IEnumerator RotateBridgeCoroutine()
+    {
+        isRotating = true;
+        float elapsedTime = 0f;
+        Quaternion initialRotation = emptyObject.localRotation;
+
+        // Realiza la rotación de forma suave
+        while (elapsedTime < rotationDuration)
+        {
+            emptyObject.localRotation = Quaternion.Slerp(initialRotation, targetRotation, elapsedTime / rotationDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Asegura que la rotación final sea la correcta
+        emptyObject.localRotation = targetRotation;
+        isRotating = false;
+    }
 }
+
 

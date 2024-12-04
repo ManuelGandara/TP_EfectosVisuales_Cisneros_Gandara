@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
     #region Singleton
     public static GameManager Instance;
     public GameObject player;
-    public GameObject Body; // Objeto del cuerpo
-    public GameObject Torch; // Objeto de la antorcha
-    [SerializeField] private GameObject vfxObject; // Objeto vacío con los VFX dentro
-    private bool vfxActivated = false; // Bandera para evitar activar el VFX varias veces
+    public GameObject Body;
+    public GameObject Torch;
+    [SerializeField] private GameObject vfxObject;
+
+    // Cambiamos VisualEffect por GameObject
+    [SerializeField] private GameObject emptyObject1;
+    [SerializeField] private GameObject emptyObject2;
+    [SerializeField] private GameObject emptyObject3;
+    [SerializeField] private GameObject emptyObject4;
+    [SerializeField] private GameObject emptyObject5;
+    [SerializeField] private GameObject emptyObject6;
+    [SerializeField] private GameObject emptyObject7;
+
+    private bool vfxActivated = false;
+    public bool onElectricity = false;
 
     private void Awake()
     {
@@ -28,44 +38,61 @@ public class GameManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Verifica si Torch y Body están involucrados en la colisión
         if ((collision.gameObject == Torch && collision.collider.gameObject == Body) ||
             (collision.gameObject == Body && collision.collider.gameObject == Torch))
         {
-            ActivateVFX(); // Activa el VFX
+            ActivateVFXFire();
         }
     }
 
     private void Update()
     {
-        // Verifica continuamente si los colisionadores se están intersectando
         if (!vfxActivated && Torch.GetComponent<Collider>().bounds.Intersects(Body.GetComponent<Collider>().bounds))
         {
-            ActivateVFX();
+            ActivateVFXFire();
+        }
+
+        if (onElectricity == true)
+        {
+            ActivateEmptyObjectsElectricity();
         }
     }
 
-    private void ActivateVFX()
+    private void ActivateVFXFire()
     {
         if (vfxObject != null)
         {
-            vfxObject.SetActive(true); // Activa el objeto vacío con los VFX dentro
-            vfxActivated = true; // Asegura que no se vuelva a activar innecesariamente
+            vfxObject.SetActive(true);
+            vfxActivated = true;
         }
         else
         {
             Debug.LogWarning("No se asignó un objeto vacío con VFX al GameManager.");
         }
     }
+
+    private void ActivateEmptyObjectsElectricity()
+    {
+        StartCoroutine(ActivateEmptyObjectsSequence());
+    }
+
+    private IEnumerator ActivateEmptyObjectsSequence()
+    {
+        // Activamos los Empty Objects uno por uno con una pausa de 1 segundo
+        emptyObject1.SetActive(true);
+        emptyObject2.SetActive(true);
+        Debug.Log("Empty Object 1 activado!");
+        yield return new WaitForSeconds(1f);
+
+        emptyObject3.SetActive(true);
+        emptyObject4.SetActive(true);
+        emptyObject5.SetActive(true);
+        Debug.Log("Empty Object 2 activado!");
+        yield return new WaitForSeconds(1f);
+
+        emptyObject6.SetActive(true);
+        emptyObject7.SetActive(true);
+        Debug.Log("Empty Object 3 activado!");
+    }
 }
-
-
-
 #endregion
-
-/*private FirstPersonController _player;
-public FirstPersonController Player
-{
-    get { return _player; }
-    set { _player = value; }
-}*/
