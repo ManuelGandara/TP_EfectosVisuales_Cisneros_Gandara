@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6758191033267941540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
+  m_Name: DamagePassRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  passMaterial: {fileID: 2100000, guid: 4d9f13071e0eefb4f979cdbdd3a7b511, type: 2}
+  injectionPoint: 450
+  requirements: 4
+  passIndex: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19,7 +36,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 3790303325306877503}
   - {fileID: 5319939889149779916}
-  m_RendererFeatureMap: 3ff6e5dfcadc9934cc1f34972439d449
+  - {fileID: -6758191033267941540}
+  m_RendererFeatureMap: 3ff6e5dfcadc9934cc1f34972439d4495c8fd5c90f1536a2
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -74,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
   m_Name: PixelCamera
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   passMaterial: {fileID: 2100000, guid: 7a2996aa3c87a5046a7b85708465cd74, type: 2}
   injectionPoint: 600
   requirements: 4
@@ -91,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
   m_Name: FullScreenPassRendererFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   passMaterial: {fileID: 2100000, guid: b2b875c2b45d69a4b9ed4bbbe4df6e0e, type: 2}
   injectionPoint: 600
   requirements: 4
